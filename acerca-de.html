@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/STYLE.CSS">
 
 </head>
 
@@ -159,8 +160,38 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-1 text-gray-800">Acerca de...</h1>
-                    <p class="mb-4">Somos el grupo XX Paolo, Agus, Ezequiel, Teo </p>
+                    <section class="about-section">
+                        <!-- Sección Principal -->
+                        <div class="main-heading">
+                            <h2>Acerca de:</h2>
+                            <p>Somos el grupo conformado por:
+                                <ul class="team-list">
+                                    <li class="team-member">DellAcqua Castro, Mateo</li>
+                                    <li class="team-member">Miarka, Ezequiel Gustavo</li>
+                                    <li class="team-member">Pachecho Aguirre, Paolo Antonio</li>
+                                    <li class="team-member">Rodríguez, Máximo Agustín</li>
+                                </ul>
+                            </p>
+                        </div>
+                        
+                        <!-- Sección Historia -->
+                        <div class="history-section">
+                            <div class="history-image">
+                                <img src="data:image/jpeg;base64,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" alt="Imagen de UTN FRC.">
+                            </div>
+                            <div class="history-content">
+                                <h3>Nuestro Objetivo</h3>
+                                <p>Con nuestro proyecto apuntamos a la mejora continua del software 
+                                    actualmente utilizado en la Universidad 
+                                    Tecnológica Nacional Facultad Regional Córdoba, proponiendo 
+                                    ideas innovadoras de gestión en cuanto Alumnos y Docentes.
+                                    Además, buscamos el mayor desarrollo y desempeño de nuestras habilidades blandas,
+                                    tales como; nuestro trabajo en equipo y resolución de desafíos propuestos
+                                    ante nuestra propia creatividad y pensamiento crítico.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
 
 
                 </div>
