@@ -63,8 +63,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Altas - Bajas:</h6>
-                        <a class="collapse-item" href="/alumno/alumno-transaccional.html">Tabla Soporte</a>
-                        <a class="collapse-item" href="/alumno/alumno-transaccional.html">Tabla Transaccional</a>
+                        <a class="collapse-item" href="/buttons.html">Tabla Soporte</a>
+                        <a class="collapse-item" href="/cards.html">Tabla Transaccional</a>
                     </div>
                 </div>
             </li>
@@ -200,7 +200,21 @@
 
                     <!-- Content Row -->
                     <div class="row">
-                        <div id="contenedorTarjetas" class="row">
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Materia 1</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Cursando</div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -212,23 +226,25 @@
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Notas de Alumnos</h6>
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Legajo</th>
-                                                <th>Curso</th>
-                                                <th>Estado</th>
-                                                <th>Materia</th>
-                                                <th>Nota</th>
-                                                <th>Fecha Cursado</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Aquí se agregarán las filas dinámicamente -->
-                                        </tbody>
-                                    </table>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Cursando</div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -292,6 +308,18 @@
     <script src="/js/demo/chart-pie-demo.js"></script>
     <script src="../js/login.js"></script>
     <script src="../js/alumno.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            new Sortable(document.getElementById("sortable-container"), {
+                animation: 150, // Suaviza el movimiento de arrastre
+                ghostClass: "sortable-ghost", // Clase CSS aplicada al elemento arrastrado
+            });
+        });
+    </script>
+    
 
 </body>
 
