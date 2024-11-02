@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.about-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px;
+}
+
+/* Sección Principal */
+.main-heading {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.main-heading h2 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+}
+
+.main-heading p {
+    font-size: 1.1rem;
+    color: #666666;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 1.8;
+}
+
+/* Sección Historia */
+.history-section {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    margin-top: 80px;
+}
+
+.history-image {
+    flex: 1;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.history-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.history-image img:hover {
+    transform: scale(1.02);
+}
+
+.history-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.history-content h3 {
+    font-size: 2rem;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+}
+
+.history-content p {
+    font-size: 1.1rem;
+    color: #666666;
+    line-height: 1.8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .history-section {
+        flex-direction: column-reverse;
+        gap: 30px;
+    }
+
+    .main-heading h2 {
+        font-size: 2rem;
+    }
+
+    .history-content h3 {
+        font-size: 1.8rem;
+    }
+
+    .main-heading p,
+    .history-content p {
+        font-size: 1rem;
+    }
+}
+
+.team-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 30px;
+    padding: 0;
+}
+
+.team-member {
+    flex: 0 1 200px;
+    text-align: center;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+}
+
+.team-member {
+    color: #000000;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+
+/* Animaciones suaves */
+.main-heading,
+.history-image,
+.history-content {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.main-heading {
+    animation-delay: 0.2s;
+}
+
+.history-image {
+    animation-delay: 0.4s;
+}
+
+.history-content {
+    animation-delay: 0.6s;
+}
+
+.team-member:nth-child(1) { animation-delay: 0.3s; }
+.team-member:nth-child(2) { animation-delay: 0.4s; }
+.team-member:nth-child(3) { animation-delay: 0.5s; }
+.team-member:nth-child(4) { animation-delay: 0.6s; }

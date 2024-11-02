@@ -1,0 +1,12 @@
+body {
+    background: linear-gradient(to bottom, #141e30, #243b55);
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.lock-icon {
+    width: 80px;
+    height: 80px;
+}

@@ -63,8 +63,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Altas - Bajas:</h6>
-                        <a class="collapse-item" href="/buttons.html">Tabla Soporte</a>
-                        <a class="collapse-item" href="/cards.html">Tabla Transaccional</a>
+                        <a class="collapse-item" href="/alumno/alumno-transaccional.html">Tabla Soporte</a>
+                        <a class="collapse-item" href="/alumno/alumno-transaccional.html">Tabla Transaccional</a>
                     </div>
                 </div>
             </li>
@@ -195,64 +195,50 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Transaccional</h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Materia 1</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Cursando</div>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- principio -->
-                    <div class="container-fluid">
-
-                        <!-- DataTales Example -->
-                        <div class="card shadow mb-4">
+                        <div class="card shadow mb-4 container-fluid" style="width: 900px;" >
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Notas de Alumnos</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Formulario de Inscripción a Materias</h6>
                             </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Cursando</div>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                        
+                            <div class="card-body">
+                                <form id="formInscripcion">
+                                    <div class="form-group">
+                                        <label for="legajo">Legajo</label>
+                                        <input type="text" id="legajo" class="form-control" placeholder="Ingrese su número de legajo" required>
                                     </div>
-                                </div>
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre</label>
+                                        <input type="text" id="nombre" class="form-control" placeholder="Ingrese su nombre" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="apellido">Apellido</label>
+                                        <input type="text" id="apellido" class="form-control" placeholder="Ingrese su apellido" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="materia">Materia</label>
+                                        <select id="materia" class="form-control" required>
+                                            <option value="">Seleccione una materia</option>
+                                            <option value="programacionI">Programación I</option>
+                                            <option value="programacionII">Programación II</option>
+                                            <option value="algebra">Álgebra</option>
+                                            <!-- Agrega más opciones según las materias disponibles -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fecha">Fecha de Inscripción</label>
+                                        <input type="date" id="fecha" class="form-control" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-3">Inscribirse</button>
+                                </form>
                             </div>
                         </div>
-
-
+                        
                     </div>
-
-                    <!-- fin  -->
+                    
                 </div>
                 <!-- /.container-fluid -->
 
@@ -308,18 +294,6 @@
     <script src="/js/demo/chart-pie-demo.js"></script>
     <script src="../js/login.js"></script>
     <script src="../js/alumno.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            new Sortable(document.getElementById("sortable-container"), {
-                animation: 150, // Suaviza el movimiento de arrastre
-                ghostClass: "sortable-ghost", // Clase CSS aplicada al elemento arrastrado
-            });
-        });
-    </script>
-    
 
 </body>
 
