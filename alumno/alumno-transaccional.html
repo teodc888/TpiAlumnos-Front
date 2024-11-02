@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Usuario - Dashboard</title>
+    <title>Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -53,21 +53,20 @@
                 Alumnos
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Altas - Bajas</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Altas - Bajas:</h6>
-                        <a class="collapse-item" href="/alumno/alumno-transaccional.html">Tabla Soporte</a>
-                        <a class="collapse-item" href="/alumno/alumno-transaccional.html">Tabla Transaccional</a>
+                   <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                        aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Inscripciones</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Inscripciones</h6>
+                            <a class="collapse-item" href="/alumno/alumno-transaccional.html">Inscripción a final</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
@@ -80,7 +79,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Utilidades:</h6>
-                        <a class="collapse-item" href="/acerca-de.html">Acerca de...</a>
+                        <a class="collapse-item" href="/alumno/acerca-de.html">Acerca de...</a>
                     </div>
                 </div>
             </li>
@@ -93,19 +92,6 @@
                 Docentes
             </div>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item d-none">
-                <a class="nav-link" href="/charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item d-none">
-                <a class="nav-link" href="/tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tablas</span></a>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block d-none">
@@ -138,10 +124,7 @@
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
+                            
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                                 aria-labelledby="searchDropdown">
@@ -166,7 +149,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="nombreUser">Usuario</span>
+                                <span class="mr-2 d-lg-inline text-gray-600 small" id="nombreUser">Usuario</span>
                                 <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
 
                             </a>
@@ -195,42 +178,43 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Transaccional</h1>
+                        <h1 class="h3 mb-0 text-gray-800"></h1>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
                         <div class="card shadow mb-4 container-fluid" style="width: 900px;" >
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Formulario de Inscripción a Materias</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Formulario de Inscripción a Finales</h6>
                             </div>
                             <div class="card-body">
                                 <form id="formInscripcion">
                                     <div class="form-group">
                                         <label for="legajo">Legajo</label>
-                                        <input type="text" id="legajo" class="form-control" placeholder="Ingrese su número de legajo" required>
+                                        <input type="text" id="legajo" class="form-control" placeholder="Ingrese su número de legajo" required readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="nombre">Nombre</label>
-                                        <input type="text" id="nombre" class="form-control" placeholder="Ingrese su nombre" required>
+                                        <input type="text" id="nombre" class="form-control" placeholder="Ingrese su nombre" required readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="apellido">Apellido</label>
-                                        <input type="text" id="apellido" class="form-control" placeholder="Ingrese su apellido" required>
+                                        <input type="text" id="apellido" class="form-control" placeholder="Ingrese su apellido" required readonly>
                                     </div>
                                     <div class="form-group">
                                         <label for="materia">Materia</label>
                                         <select id="materia" class="form-control" required>
-                                            <option value="">Seleccione una materia</option>
-                                            <option value="programacionI">Programación I</option>
-                                            <option value="programacionII">Programación II</option>
-                                            <option value="algebra">Álgebra</option>
-                                            <!-- Agrega más opciones según las materias disponibles -->
+                                            
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="fecha">Fecha de Inscripción</label>
-                                        <input type="date" id="fecha" class="form-control" required>
+                                        <select id="fecha" class="form-control" required>
+                                            <option value="">Seleccione una fecha de final</option>
+                                            <option value="">10/10/2024</option>
+                                            <option value="">10/11/2024</option>
+                                            <option value="">10/12/2024</option>
+                                        </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-3">Inscribirse</button>
                                 </form>
