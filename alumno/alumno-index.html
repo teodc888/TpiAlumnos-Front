@@ -53,21 +53,6 @@
                 Alumnos
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Altas - Bajas</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Altas - Bajas:</h6>
-                        <a class="collapse-item" href="/buttons.html">Tabla Soporte</a>
-                        <a class="collapse-item" href="/cards.html">Tabla Transaccional</a>
-                    </div>
-                </div>
-            </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
@@ -200,7 +185,13 @@
                     </div>
 
                     <!-- Content Row -->
-                    <div class="row">
+                    <div class="row" id="sortable-container">
+                        <style>
+                            .sortable-ghost {
+                                opacity: 0.5;
+                                background-color: #f0f0f0;
+                            }
+                        </style>
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
@@ -235,7 +226,7 @@
                         </div>
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-3 col-md-6 mb-4 ">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -336,6 +327,18 @@
     <!-- Page level custom scripts -->
     <script src="/js/demo/chart-area-demo.js"></script>
     <script src="/js/demo/chart-pie-demo.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            new Sortable(document.getElementById("sortable-container"), {
+                animation: 150, // Suaviza el movimiento de arrastre
+                ghostClass: "sortable-ghost", // Clase CSS aplicada al elemento arrastrado
+            });
+        });
+    </script>
+    
 
 </body>
 
