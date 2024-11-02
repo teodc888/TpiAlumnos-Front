@@ -143,3 +143,8 @@ ObtenerNotasAlumno()
 ObtenerInfoAlumno();
 
 ObtenerAlumno();
+
+function logout() {
+    localStorage.removeItem("tokenSesion"); // Elimina el token de sesión
+    window.location.href = "/index.html"; // Redirige a la página de inicio
+}
