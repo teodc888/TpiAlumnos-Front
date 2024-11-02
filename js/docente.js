@@ -1,150 +1,158 @@
-function prueba(){
+function verificarSession() {
     var pru = localStorage.getItem("tokenSesion");
 
-    if(pru == null){
+    if (pru == null) {
         window.location.href = "/index.html";
     }
 }
 
-prueba();
+async function ObtenerDocente() {
+    var docenteLocal = localStorage.getItem("tokenSesion");
 
-async function ObtenerAlumno() {
-    var alumnoLocal = localStorage.getItem("tokenSesion");
+    if (docenteLocal != null) {
+        var docenteObjeto = JSON.parse(docenteLocal);
 
-    if (alumnoLocal != null) {
-        var alumnoObjeto = JSON.parse(alumnoLocal);
-
-        fetch("https://localhost:7146/v1/api/Docente?legajo=" + alumnoObjeto.userName, {
+        fetch("https://localhost:7146/v1/api/Docente?legajo=" + docenteObjeto.userName, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             }
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error en la respuesta: " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            document.getElementById('nombreUser').innerHTML = data.nombre + ' ' + data.apellido;
-        })
-        .catch(error => {
-            console.error("Error en la solicitud:", error);
-        });
-    }
-}
-
-async function ObtenerInfoAlumno() {
-    var alumnoLocal = localStorage.getItem("tokenSesion");
-
-    if (alumnoLocal != null) {
-        var alumnoObjeto = JSON.parse(alumnoLocal);
-
-        fetch("https://localhost:7146/v1/api/Alumno/info?legajo=" + alumnoObjeto.userName, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error en la respuesta: " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Seleccionamos el contenedor donde se agregarán las tarjetas
-            const contenedorTarjetas = document.getElementById("contenedorTarjetas");
-            contenedorTarjetas.innerHTML = ""; // Limpiamos el contenido anterior
-
-            // Recorremos cada objeto de data y generamos una tarjeta
-            data.forEach(alumno => {
-                const tarjeta = document.createElement("div");
-                tarjeta.className = "col-xl-3 col-md-6 mb-4";
-                tarjeta.innerHTML = `
-                    <div class="card border-left-primary shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        ${alumno.carrera}</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">${alumno.materia}</div>
-                                    <div class="text-xs mt-1">Tipo: ${alumno.tipoMateria}</div>
-                                    <div class="text-xs">Fecha Inscripción Cursado: ${alumno.fechaInscripcionCursado}</div>
-                                    <div class="text-xs">Fecha Inscripción Materia: ${alumno.fechaInscripcionMateria}</div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                // Agregamos la tarjeta al contenedor
-                contenedorTarjetas.appendChild(tarjeta);
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('nombreUser').innerHTML = data.nombre + ' ' + data.apellido;
+                document.getElementById('nombreDocente').innerHTML = "Bienvenido de vuelta, " + data.nombre + ' ' + data.apellido;
+            })
+            .catch(error => {
+                console.error("Error en la solicitud:", error);
             });
-        })
-        .catch(error => {
-            console.error("Error en la solicitud:", error);
-        });
     }
 }
 
-async function ObtenerNotasAlumno() {
-    var alumnoLocal = localStorage.getItem("tokenSesion");
+async function ObtenerInfoDocente() {
+    var docenteLocal = localStorage.getItem("tokenSesion");
 
-    if (alumnoLocal != null) {
-        var alumnoObjeto = JSON.parse(alumnoLocal);
+    if (docenteLocal != null) {
+        var docenteObjeto = JSON.parse(docenteLocal);
 
-        fetch("https://localhost:7146/v1/api/Alumno/info/notas?legajo=" + alumnoObjeto.userName, {
+        fetch("https://localhost:7146/v1/api/Docente/info?legajo=" + docenteObjeto.userName, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             }
         })
-        .then(response => {
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('promedioNotas').innerHTML = data.promedioNotas;
+                document.getElementById('alumnosTotales').innerHTML = data.alumnosTotales;
+                document.getElementById('materiasActivas').innerHTML = data.materiaInscriptas;
+            })
+            .catch(error => {
+                console.error("Error en la solicitud:", error);
+            });
+    }
+}
+
+async function obtenerMateriasDocente() {
+    var docenteLocal = localStorage.getItem("tokenSesion");
+
+    if (docenteLocal != null) {
+        var docenteObjeto = JSON.parse(docenteLocal);
+
+        try {
+            const response = await fetch("https://localhost:7146/v1/api/Docente/materia?legajo=" + docenteObjeto.userName, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
             if (!response.ok) {
                 throw new Error("Error en la respuesta: " + response.status);
             }
-            return response.json();
-        })
-        .then(data => {
-            // Seleccionamos el cuerpo de la tabla
-            const tbody = document.querySelector("#dataTable tbody");
+
+            const data = await response.json();
+
+            // Seleccionamos el cuerpo de la tabla usando el ID
+            const tbody = document.querySelector("#materiasTable tbody");
             tbody.innerHTML = ""; // Limpiamos el contenido previo en la tabla
 
-            // Recorremos el array de datos para agregar filas
-            data.forEach(alumno => {
+            data.forEach(materia => {
                 const fila = document.createElement("tr");
+
                 fila.innerHTML = `
-                    <td>${alumno.legajo}</td>
-                    <td>${alumno.curso}</td>
-                    <td>${alumno.estado}</td>
-                    <td>${alumno.materia}</td>
-                    <td>${alumno.nota}</td>
-                    <td>${alumno.fechaCursado}</td>
+                    <td>${materia.legajo}</td>
+                    <td>${materia.materia}</td>
+                    <td>${materia.carrera}</td>
+                    <td>${materia.anioPlan}</td>
+                    <td><a href="modificar_materia.html?id=${materia.legajo}">Modificar</a></td>
                 `;
-                
-                // Añadimos la fila al cuerpo de la tabla
+
                 tbody.appendChild(fila);
             });
-        })
-        .catch(error => {
+        } catch (error) {
             console.error("Error en la solicitud:", error);
-        });
+        }
     }
 }
 
+async function obtenerDocentesTribunales() {
+    var docenteLocal = localStorage.getItem("tokenSesion");
 
-ObtenerNotasAlumno()
+    if (docenteLocal != null) {
+        var docenteObjeto = JSON.parse(docenteLocal);
+        try {
+            const response = await fetch("https://localhost:7146/v1/api/Docente/tribunal?legajo=" + docenteObjeto.userName, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
 
-ObtenerInfoAlumno();
+            if (!response.ok) {
+                throw new Error("Error en la respuesta: " + response.status);
+            }
 
-ObtenerAlumno();
+            const data = await response.json();
+
+            const tbody = document.querySelector("#docentesTable tbody");
+            tbody.innerHTML = ""; 
+
+            data.forEach(docente => {
+                const fila = document.createElement("tr");
+
+                fila.innerHTML = `
+                    <td>${docente.legajo}</td>
+                    <td>${docente.aula}</td>
+                    <td>${docente.materia}</td>
+                    <td>${docente.fecha}</td>
+                `;
+    
+                tbody.appendChild(fila);
+            });
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+        }
+    }
+}
 
 function logout() {
-    localStorage.removeItem("tokenSesion"); // Elimina el token de sesión
-    window.location.href = "/index.html"; // Redirige a la página de inicio
+    localStorage.removeItem("tokenSesion");
+    window.location.href = "/index.html";
 }
+
+obtenerDocentesTribunales()
+ObtenerDocente();
+verificarSession();
+ObtenerInfoDocente();
+obtenerMateriasDocente();

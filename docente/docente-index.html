@@ -66,22 +66,6 @@
                     </div>
                 </div>
             </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fa-solid fa-shapes"></i>
-                    <span>Materias por carrera</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="./materiasXcarrera.html">Página</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
@@ -91,7 +75,8 @@
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="./docentesXtribunal.html">Página</a>
+                        <h6 class="collapse-header">Opciones</h6>
+                        <a class="collapse-item" href="./docentesXtribunal.html">Docente por tribunal</a>
                     </div>
                 </div>
             </li>
@@ -109,23 +94,6 @@
             <div id="content">
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small"
-                                placeholder="Search for..." />
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -158,7 +126,7 @@
                         <div class="stat-card">
                             <div class="stat-header">
                                 <div>
-                                    <div class="stat-value">7.5</div>
+                                    <div class="stat-value" id="promedioNotas"></div>
                                     <div class="stat-label">Promedio General</div>
                                 </div>
                                 <div class="stat-icon" style="background: rgba(28, 200, 138, 0.1); color: #1cc88a">
@@ -170,7 +138,7 @@
                         <div class="stat-card">
                             <div class="stat-header">
                                 <div>
-                                    <div class="stat-value">165</div>
+                                    <div class="stat-value" id="alumnosTotales"></div>
                                     <div class="stat-label">Alumnos Totales</div>
                                 </div>
                                 <div class="stat-icon" style="background: rgba(54, 185, 204, 0.1); color: #36b9cc">
@@ -182,7 +150,7 @@
                         <div class="stat-card">
                             <div class="stat-header">
                                 <div>
-                                    <div class="stat-value">4</div>
+                                    <div class="stat-value" id="materiasActivas"></div>
                                     <div class="stat-label">Materias Activas</div>
                                 </div>
                                 <div class="stat-icon" style="background: rgba(246, 194, 62, 0.1); color: #f6c23e">
