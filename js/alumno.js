@@ -1,12 +1,20 @@
-function prueba(){
-    var pru = localStorage.getItem("tokenSesion");
+function verificarUsuario(){
+    var alumnoLocal = localStorage.getItem("tokenSesion");
 
-    if(pru == null){
+    if(alumnoLocal == null){
         window.location.href = "/index.html";
     }
+
+    var alumnoObjeto = JSON.parse(alumnoLocal);
+
+    if(alumnoObjeto.Rol != "Alumno"){
+        window.location.href = "/index.html";
+    }
+
+
 }
 
-prueba();
+verificarUsuario();
 
 async function ObtenerAlumno() {
     var alumnoLocal = localStorage.getItem("tokenSesion");

@@ -99,7 +99,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="nombreUser">Usuario</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg" />
+                                <img class="img-profile rounded-circle" src="../img/undraw_profile.svg" />
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
                                 <a class="dropdown-item" href="#">
@@ -174,13 +174,6 @@
 
                     <div class="charts-grid">
                         <div class="chart-card">
-                            <h3>Tendencia de Calificaciones</h3>
-                            <div class="chart-container">
-                                <canvas id="gradesChart"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="chart-card">
                             <h3>Estado de Alumnos</h3>
                             <div class="chart-container">
                                 <canvas id="statusChart"></canvas>
@@ -197,24 +190,19 @@
                         <div class="chart-card">
                             <h3>Métricas de Desempeño</h3>
                             <div class="performance-cards">
-                                <div class="performance-cards">
-                                    <div class="performance-card">
-                                        <h4>Materias con Alto Desempeño</h4>
-                                        <div class="tag-container">
-                                            <span class="tag success">Matemáticas</span>
-                                            <span class="tag success">Física</span>
-                                        </div>
+                                <div class="performance-card">
+                                    <h4>Materias con Alto Desempeño</h4>
+                                    <div class="tag-container success">
                                     </div>
-                                    <div class="performance-card">
-                                        <h4>Materias con Bajo Desempeño</h4>
-                                        <div class="tag-container">
-                                            <span class="tag danger">Química</span>
-                                            <span class="tag danger">Historia</span>
-                                        </div>
+                                </div>         
+                                <div class="performance-card">
+                                    <h4>Materias con Bajo Desempeño</h4>
+                                    <div class="tag-container danger">
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

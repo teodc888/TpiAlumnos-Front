@@ -86,7 +86,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="nombreUser">Usuario</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg" />
+                                <img class="img-profile rounded-circle" src="../img/undraw_profile.svg" />
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
                                 <a class="dropdown-item" href="#">
@@ -101,31 +101,28 @@
                     </ul>
                 </nav>
 
-                <div class="container-fluid">
-                    <section class="materias">
-                        <h2>Materias a Cargo</h2>
-                        <p>Gestiona las materias que tienes asignadas.</p>
-                        <!-- <form id="filterForm">
-                            <input type="text" placeholder="Buscar Materia" name="search">
-                            <button type="submit">Buscar</button>
-                        </form>
-                        <button onclick="window.location.href='addMateria.html'">Agregar Nueva Materia</button> -->
-                        <table id="materiasTable">
-                            <thead>
-                                <tr>
-                                    <th>Legajo</th>
-                                    <th>Materia</th>
-                                    <th>Tipo de Materia</th>
-                                    <th>Año del Plan</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                 
-                            </tbody>
-                        </table>
-                        
-                    </section>
+                <div class="card shadow mb-4" >
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Materias a Cargo</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="materiasTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Legajo</th>
+                                        <th>Materia</th>
+                                        <th>Tipo de Materia</th>
+                                        <th>Año del Plan</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                     
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
