@@ -1,21 +1,29 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Materias a Cargo</title>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <title>Bienvenido</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Custom styles -->
     <link href="./css/sb-admin-2.css" rel="stylesheet" />
-    <link rel="stylesheet" href="./css/dashCss.css">
-    <link rel="stylesheet" href="./css/materiasXcarrera.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS4h/GL9k4bGfPr6VxZwiHphB17R+9P19oWfHqO8KX8vY5gbyGJ0" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="./css/dashCss.css" />
 </head>
 
-<body>
+<body id="page-top">
+    <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -94,12 +102,15 @@
         </ul>
         <!-- End of Sidebar -->
 
+        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
             <div id="content">
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="nombreUser">Usuario</span>
                                 <img class="img-profile rounded-circle" src="../img/undraw_profile.svg" />
                             </a>
@@ -115,62 +126,20 @@
                         </li>
                     </ul>
                 </nav>
-        
-                <div class="dashboard-header">
-                    <h1>Administracion</h1>
+
+                <div class="container-fluid" >
+
+                    <div class="container mt-5">
+                        <h1 class="text-center mb-4">Perfil del Docente</h1>
+                        <div id="cardPerfil" class="d-flex justify-content-center"></div>
+                    </div>
+                    
                 </div>
-                <div id="materias-container"></div>
+      
+
+
             </div>
         </div>
-
-        <!-- Modal de Información del Alumno -->
-        <div class="modal fade" id="infoAlumnoModal" tabindex="-1" role="dialog" aria-labelledby="infoAlumnoModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="infoAlumnoModalLabel">Información del Alumno</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Contenido dinámico del modal -->
-                        <p><strong>Legajo:</strong> <span id="infoLegajo"></span></p>
-                        <p><strong>Nombre:</strong> <span id="infoNombre"></span></p>
-                        <p><strong>Apellido:</strong> <span id="infoApellido"></span></p>
-                        <p><strong>Tipo de Documento:</strong> <span id="infoTipoDocumento"></span></p>
-                        <p><strong>Número de Documento:</strong> <span id="infoNumeroDocumento"></span></p>
-                        <p><strong>Dirección:</strong> <span id="infoDireccion"></span></p>
-                        <p><strong>Localidad:</strong> <span id="infoLocalidad"></span></p>
-                        <p><strong>Estado Civil:</strong> <span id="infoEstadoCivil"></span></p>
-                        <p><strong>Estado Habitacional:</strong> <span id="infoEstadoHabitacional"></span></p>
-                        <p><strong>Situación Laboral:</strong> <span id="infoSituacionLaboral"></span></p>
-                        <p><strong>Fecha de Nacimiento:</strong> <span id="infoFechaNacimiento"></span></p>
-                        <p><strong>Género:</strong> <span id="infoGenero"></span></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Popup para editar la nota -->
-        <div id="editNotaPopup" class="popup-overlay" style="display: none;">
-            <div class="popup-content">
-                <h3>Editar Nota</h3>
-                <label for="editNotaInput">Nueva Nota:</label>
-                <input type="number" id="editNotaInput" min="0" max="10" step="0.1" placeholder="Ingrese la nueva nota">
-                <div class="popup-buttons">
-                    <button id="cancelEditNota" class="btn btn-secondary">Salir</button>
-                    <button id="confirmEditNota" class="btn btn-primary">Confirmar</button>
-                </div>
-            </div>
-        </div>
-
-        
-        
     </div>
 
     <!--LOGOUT-->
@@ -194,9 +163,23 @@
         </div>
     </div>
 
+    <script src="../js/docente.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="./Js/docente-index.js"></script>
+    <!-- jQuery, Bootstrap, y tu script personalizado -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/docente.js"></script>
+    <script src="./Js/docente-index.js"></script>
+    <script>
+        $(document).ready(function () {
+    $('#sidebarToggle').on('click', function () {
+        $('#accordionSidebar').toggleClass('toggled');
+    });
+});
+
+    </script>
+
+
 </body>
 
 </html>
