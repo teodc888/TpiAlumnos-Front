@@ -7,7 +7,7 @@ function verificarUsuario(){
 
     var alumnoObjeto = JSON.parse(alumnoLocal);
 
-    if(alumnoObjeto.Rol != "Alumno"){
+    if(alumnoObjeto.rol != "Alumno"){
         window.location.href = "/index.html";
     }
 
@@ -178,8 +178,6 @@ async function ObtenerNotasAlumno() {
     }
 }
 
-// ----------------------------------------------------------------
-
 async function CargarSelect() {
     var alumnoLocal = localStorage.getItem("tokenSesion");
 
@@ -222,12 +220,141 @@ async function CargarSelect() {
     }
 }
 
+async function ObtenerExamenesFinales() {
+    var alumnoLocal = localStorage.getItem("tokenSesion");
+
+    if (alumnoLocal != null) {
+        var alumnoObjeto = JSON.parse(alumnoLocal);
+
+        fetch(`https://localhost:7146/v1/api/Alumno/examen/final?legajo=${alumnoObjeto.userName}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error en la respuesta: " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Seleccionamos el contenedor donde se agregarán las tarjetas
+            const contenedorTarjetas = document.getElementById("contenedorFinal");
+            contenedorTarjetas.innerHTML = ""; // Limpiamos el contenido anterior
+
+            // Recorremos cada objeto de data y generamos una tarjeta
+            data.forEach(examen => {
+                const tarjeta = document.createElement("div");
+                tarjeta.className = "col-lg-4 col-md-6 mb-4"; // Ajustamos el tamaño de la tarjeta
+                tarjeta.innerHTML = `
+                    <div class="card shadow border-left-primary h-100">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h5 class="m-0">${examen.nombreMateria}</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="text-gray-800">Fecha del Examen:</h6>
+                            <p class="h5 font-weight-bold">${new Date(examen.fecha).toLocaleDateString()}</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button class="btn btn-secondary btn-sm">Ver Detalles</button>
+                        </div>
+                    </div>
+                `;
+                
+                // Agregamos la tarjeta al contenedor
+                contenedorTarjetas.appendChild(tarjeta);
+            });
+        })
+        .catch(error => {
+            console.error("Error en la solicitud:", error);
+        });
+    }
+}
+
+async function inscribirAlumno(event) {
+    event.preventDefault(); // Evita el envío del formulario por defecto
+
+    // Obtiene los valores del formulario
+    const legajo = document.getElementById("legajo").value;
+    const selectMateria = document.getElementById('materia');
+    const nombreMateria = selectMateria.options[selectMateria.selectedIndex].text;
+    const fechaInscripcion = document.getElementById("fecha").value;
+
+    // Construye el cuerpo de la solicitud
+    const body = {
+        legajo: parseInt(legajo), // Convierte legajo a número
+        nombreMateria: nombreMateria,
+        fechaInscripcion: new Date(fechaInscripcion).toISOString() // Formatea la fecha
+    };
+    try {
+        const response = await fetch("https://localhost:7146/v1/api/Alumno/inscribir", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body) // Convierte el cuerpo a JSON
+        });
+
+        if (!response.ok) {
+            throw new Error("Error en la inscripción: " + response.status);
+        }
+
+        // Muestra el modal de confirmación si la inscripción es exitosa
+        $('#confirmacionModal').modal('show');
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+        alert("Ocurrió un error al inscribirse. Intente nuevamente.");
+    }
+}
+
+async function cargarPerfilAlumno() {
+    var alumnoLocal = localStorage.getItem("tokenSesion");
+    var alumnoObjeto = JSON.parse(alumnoLocal);
+    try {
+        const response = await fetch('https://localhost:7146/v1/api/Alumno?legajo=' + alumnoObjeto.userName);
+        console.log(response)
+        if (!response.ok) {
+            
+            throw new Error("Error al obtener los datos del alumno");
+        }
+        const data = await response.json();
+        console.log(data)
+        mostrarPerfil(data);
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+function mostrarPerfil(alumno) {
+    const cardPerfil = document.getElementById("cardPerfil");
+    cardPerfil.innerHTML = `
+        <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="width: 24rem;">
+            <div class="card-body">
+                <h4 class="card-title text-center text-primary">${alumno.nombre} ${alumno.apellido}</h4>
+                <h6 class="card-subtitle mb-2 text-muted text-center">Legajo: ${alumno.legajo}</h6>
+                <hr>
+                <p><strong>Documento:</strong> ${alumno.tipoDocumento} ${alumno.numeroDocumento}</p>
+                <p><strong>Fecha de Nacimiento:</strong> ${new Date(alumno.fechaNacimiento).toLocaleDateString()}</p>
+                <p><strong>Dirección:</strong> ${alumno.direccion}</p>
+                <p><strong>Localidad:</strong> ${alumno.localidad}</p>
+                <p><strong>Estado Civil:</strong> ${alumno.estadoCivil}</p>
+                <p><strong>Estado Habitacional:</strong> ${alumno.estadoHabitacional}</p>
+                <p><strong>Situación Laboral:</strong> ${alumno.situacionLaboral}</p>
+                <p><strong>Género:</strong> ${alumno.genero}</p>
+            </div>
+        </div>
+    `;
+}
 
 
-// ----------------------------------------------------------------
+cargarPerfilAlumno()
 
 
-ObtenerNotasAlumno()
+
+ObtenerExamenesFinales();
+
+ObtenerNotasAlumno();
 
 ObtenerInfoAlumno();
 

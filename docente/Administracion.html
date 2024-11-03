@@ -5,26 +5,18 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <title>Materias a Cargo</title>
 
-    <title>Docentes por Tribunal</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <!-- Custom styles for this template-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
     <link href="./css/sb-admin-2.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/dashCss.css">
     <link rel="stylesheet" href="./css/materiasXcarrera.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-DyZ88mC6Up2uqS4h/GL9k4bGfPr6VxZwiHphB17R+9P19oWfHqO8KX8vY5gbyGJ0" crossorigin="anonymous">
+
 </head>
 
 <body>
-
-  <!-- Page Wrapper -->
-  <div id="wrapper">
+    <div id="wrapper">
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
@@ -102,60 +94,85 @@
         </ul>
         <!-- End of Sidebar -->
 
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content">
-            <!-- Topbar -->
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-toggle="dropdown">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="nombreUser">Usuario</span>
-                            <img class="img-profile rounded-circle" src="../img/undraw_profile.svg" />
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Profile
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="nombreUser">Usuario</span>
+                                <img class="img-profile rounded-circle" src="../img/undraw_profile.svg" />
                             </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-    
-            <!-- Container Fluid-->
-            <div class="card shadow mb-4" >
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Docentes por Tribunal</h6>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Profile
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+        
+                <div class="dashboard-header">
+                    <h1>Administracion</h1>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="docentesTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Legajo del Docente</th>
-                                    <th>Aula</th>
-                                    <th>Materia</th>
-                                    <th>Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Las filas se agregarán aquí dinámicamente con JavaScript -->
-                            </tbody>
-                        </table>
+                <div id="materias-container"></div>
+            </div>
+        </div>
+
+        <!-- Modal de Información del Alumno -->
+        <div class="modal fade" id="infoAlumnoModal" tabindex="-1" role="dialog" aria-labelledby="infoAlumnoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoAlumnoModalLabel">Información del Alumno</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Contenido dinámico del modal -->
+                        <p><strong>Legajo:</strong> <span id="infoLegajo"></span></p>
+                        <p><strong>Nombre:</strong> <span id="infoNombre"></span></p>
+                        <p><strong>Apellido:</strong> <span id="infoApellido"></span></p>
+                        <p><strong>Tipo de Documento:</strong> <span id="infoTipoDocumento"></span></p>
+                        <p><strong>Número de Documento:</strong> <span id="infoNumeroDocumento"></span></p>
+                        <p><strong>Dirección:</strong> <span id="infoDireccion"></span></p>
+                        <p><strong>Localidad:</strong> <span id="infoLocalidad"></span></p>
+                        <p><strong>Estado Civil:</strong> <span id="infoEstadoCivil"></span></p>
+                        <p><strong>Estado Habitacional:</strong> <span id="infoEstadoHabitacional"></span></p>
+                        <p><strong>Situación Laboral:</strong> <span id="infoSituacionLaboral"></span></p>
+                        <p><strong>Fecha de Nacimiento:</strong> <span id="infoFechaNacimiento"></span></p>
+                        <p><strong>Género:</strong> <span id="infoGenero"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
-            <!-- End of Container Fluid -->
         </div>
-        <!-- End of Main Content -->
+
+        <!-- Popup para editar la nota -->
+        <div id="editNotaPopup" class="popup-overlay" style="display: none;">
+            <div class="popup-content">
+                <h3>Editar Nota</h3>
+                <label for="editNotaInput">Nueva Nota:</label>
+                <input type="number" id="editNotaInput" min="0" max="10" step="0.1" placeholder="Ingrese la nueva nota">
+                <div class="popup-buttons">
+                    <button id="cancelEditNota" class="btn btn-secondary">Salir</button>
+                    <button id="confirmEditNota" class="btn btn-primary">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        
+        
     </div>
-    <!-- End of Content Wrapper -->
-    
+
     <!--LOGOUT-->
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -176,9 +193,10 @@
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-  <script src="../js/docente.js"></script>
-    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/docente.js"></script>
 </body>
+
 </html>

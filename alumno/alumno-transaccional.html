@@ -53,20 +53,26 @@
                 Alumnos
             </div>
 
-                   <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                        aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-fw fa-cog"></i>
-                        <span>Inscripciones</span>
-                    </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Inscripciones</h6>
-                            <a class="collapse-item" href="/alumno/alumno-transaccional.html">Inscripción a final</a>
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                            aria-expanded="true" aria-controls="collapseTwo">
+                            <i class="fas fa-fw fa-cog"></i>
+                            <span>Inscripciones</span>
+                        </a>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Inscripciones</h6>
+                                <a class="collapse-item" href="/alumno/alumno-transaccional.html">Inscripción a final</a>
+                            </div>
                         </div>
-                    </div>
-                </li>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Finales Inscripto</h6>
+                                <a class="collapse-item" href="/alumno/alumno-final-inscripto.html">Finales Inscripto</a>
+                            </div>
+                        </div>
+                    </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
@@ -183,12 +189,12 @@
 
                     <!-- Content Row -->
                     <div class="row">
-                        <div class="card shadow mb-4 container-fluid" style="width: 900px;" >
+                        <div class="card shadow mb-4 container-fluid" style="width: 900px;">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Formulario de Inscripción a Finales</h6>
                             </div>
                             <div class="card-body">
-                                <form id="formInscripcion">
+                                <form id="formInscripcion" onsubmit="return inscribirAlumno(event)">
                                     <div class="form-group">
                                         <label for="legajo">Legajo</label>
                                         <input type="text" id="legajo" class="form-control" placeholder="Ingrese su número de legajo" required readonly>
@@ -204,23 +210,23 @@
                                     <div class="form-group">
                                         <label for="materia">Materia</label>
                                         <select id="materia" class="form-control" required>
-                                            
+                                            <option value="">Seleccione una materia</option>
+                                            <!-- Opciones de materias se llenarán aquí -->
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="fecha">Fecha de Inscripción</label>
                                         <select id="fecha" class="form-control" required>
                                             <option value="">Seleccione una fecha de final</option>
-                                            <option value="">10/10/2024</option>
-                                            <option value="">10/11/2024</option>
-                                            <option value="">10/12/2024</option>
+                                            <option value="2024-10-10T00:00:00Z">10/10/2024</option>
+                                            <option value="2024-11-10T00:00:00Z">10/11/2024</option>
+                                            <option value="2024-12-10T00:00:00Z">10/12/2024</option>
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-3">Inscribirse</button>
                                 </form>
                             </div>
                         </div>
-                        
                     </div>
                     
                 </div>
@@ -255,6 +261,27 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacionModalLabel">Inscripción Exitosa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¡Te has inscrito correctamente a la materia!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
