@@ -46,22 +46,67 @@ async function ObtenerInfoDocente() {
                 "Content-Type": "application/json"
             }
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Error en la respuesta: " + response.status);
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error en la respuesta: " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('promedioNotas').innerHTML = data.promedioNotas;
+            document.getElementById('alumnosTotales').innerHTML = data.alumnosTotales;
+            document.getElementById('materiasActivas').innerHTML = data.materiaInscriptas;
+            document.getElementById('alumnoRiesgo').innerHTML = data.alumnosEnRiesgo;  
+            
+            // Contar la cantidad de estados
+            const estadoAlumnos = data.estadoAlumnos;
+            let regulares = 0;
+            let libres = 0;
+            let noRendidos = 0;
+
+            // Procesar el estado de los alumnos
+            estadoAlumnos.forEach(estado => {
+                switch (estado.estadoMateria) {
+                    case "REGULAR":
+                        regulares += estado.cantidad;
+                        break;
+                    case "LIBRE":
+                        libres += estado.cantidad;
+                        break;
+                    case "PROMOCIONAL":
+                        noRendidos += estado.cantidad;
+                        break;
                 }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById('promedioNotas').innerHTML = data.promedioNotas;
-                document.getElementById('alumnosTotales').innerHTML = data.alumnosTotales;
-                document.getElementById('materiasActivas').innerHTML = data.materiaInscriptas;
-            })
-            .catch(error => {
-                console.error("Error en la solicitud:", error);
             });
+
+            // Status Chart
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Regulares', 'Libres', 'PROMOCIONAL'],
+                    datasets: [{
+                        data: [regulares, libres, noRendidos],
+                        backgroundColor: [
+                            '#1cc88a', // Verde para Regulares
+                            '#e74a3b', // Rojo para Libres
+                            '#f6c23e'  // Amarillo para No Rendidos
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        })
+        .catch(error => {
+            console.error("Error en la solicitud:", error);
+        });
     }
 }
+
+
 
 async function obtenerMateriasDocente() {
     var docenteLocal = localStorage.getItem("tokenSesion");

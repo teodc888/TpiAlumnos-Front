@@ -23,26 +23,7 @@ const gradesCtx = document.getElementById('gradesChart').getContext('2d');
             }
         });
 
-        // Status Chart
-        const statusCtx = document.getElementById('statusChart').getContext('2d');
-        new Chart(statusCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Regulares', 'Libres', 'No Rendidos'],
-                datasets: [{
-                    data: [120, 30, 15],
-                    backgroundColor: [
-                        '#1cc88a',
-                        '#e74a3b',
-                        '#f6c23e'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
+
 
         // Age Chart
         const ageCtx = document.getElementById('ageChart').getContext('2d');
