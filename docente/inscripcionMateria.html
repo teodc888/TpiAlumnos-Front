@@ -130,29 +130,37 @@
 
         <div class="container">
           <h1>Inscripción de Alumno a Materia</h1>
-          <form id="inscripcionForm">
+          <form id="inscripcionForm" onsubmit="return false;"> <!-- Prevenir comportamiento por defecto aquí -->
             <div class="form-group">
-              <label for="alumnoId">ID del Alumno</label>
-              <input type="number" id="alumnoId" name="alumnoId" placeholder="Ingresa el ID del alumno" required>
+              <label for="alumnoId">Alumno</label>
+              <select id="alumnoId" name="alumnoId" required>
+                <option value="" disabled selected>Selecciona un alumno</option>
+
+              </select>
             </div>
             <div class="form-group">
               <label for="materiaId">Materia</label>
               <select id="materiaId" name="materiaId" required>
                 <option value="" disabled selected>Selecciona una materia</option>
-                <option value="1">Programación I</option>
-                <option value="2">Base de datos I</option>
-                <option value="2">Programación II</option>
-                <!-- Agrega más opciones según las materias disponibles -->
+
               </select>
             </div>
-            <button type="submit">Inscribir Alumno</button>
+            <button type="button" id="inscribirBtn">Inscribir Alumno</button>
           </form>
         </div>
-        <!-- End of Topbar -->
-        <script src="../js/docente.js"></script>
-        <script src="../js/docente.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <span class="close" id="modalClose">&times;</span>
+            <p id="modalMessage"></p>
+          </div>
+        </div>
+      </div>
+      <!-- End of Topbar -->
+      <script src="../js/docente.js"></script>
+      <script src="../js/docente.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

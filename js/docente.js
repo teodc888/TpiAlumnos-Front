@@ -310,12 +310,11 @@ async function ObtenerAdministracionDocente() {
                                                     <button class="btn btn-info btn-sm" onclick="mostrarInfo(${alumno.legajo}, '${materia.materia}')">
                                                         <i class="fas fa-info-circle"></i>
                                                     </button>
-                                                    <button class="btn btn-primary btn-sm" onclick="editarNota(${alumno.legajo}, '${materia.materia}', '${alumno.listNota.length > 0 ? alumno.listNota[0].nota : "N/A"}')">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-danger btn-sm" onclick="eliminarAlumno(${alumno.legajo}, '${materia.materia}')">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
+                                                    ${alumno.listNota.length > 0 && alumno.listNota[0].nota !== "N/A" ? `
+                                                        <button class="btn btn-primary btn-sm" onclick="editarNota(${alumno.legajo}, '${materia.materia}', '${alumno.listNota[0].nota}')">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                    ` : ''}
                                                 </td>
                                             </tr>
                                         `).join("")}
@@ -349,7 +348,8 @@ function editarNota(legajoAlumno, materia, notaActual) {
                     <div class="modal-body">
                         <p>Legajo: ${legajoAlumno}</p>
                         <label for="nuevaNota">Nota Actual: ${notaActual}</label>
-                        <input type="number" id="nuevaNotaInput" class="form-control" value="${notaActual}" min="1" max="10">
+                        <input type="number" id="nuevaNotaInput" class="form-control" value="${notaActual}" min="1" max="10" required>
+                        <div id="notaError" class="text-danger" style="display: none;">Por favor, ingrese una nota entre 1 y 10.</div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -364,54 +364,39 @@ function editarNota(legajoAlumno, materia, notaActual) {
     $('#editarNotaModal').modal('show');
 }
 
-function confirmarEdicionNota(legajoAlumno, materia) {
-    const nuevaNota = document.getElementById("nuevaNotaInput").value;
 
-    alert(`Nota actualizada para el alumno con legajo ${legajoAlumno} en ${materia} a: ${nuevaNota}`);
-    
+async function confirmarEdicionNota(legajoAlumno, materia) {
+    const nuevaNota = document.getElementById("nuevaNotaInput").value;
+    const notaError = document.getElementById("notaError");
+
+    // Validar que la nota esté entre 1 y 10
+    if (nuevaNota < 1 || nuevaNota > 10) {
+        notaError.style.display = "block"; // Mostrar mensaje de error
+        return; // Salir de la función si la nota es inválida
+    } else {
+        notaError.style.display = "none"; // Ocultar mensaje de error
+    }
+
+    try {
+        const response = await fetch(`https://localhost:7146/v1/api/Docente/materia/editar?Legajo=${legajoAlumno}&Nota=${nuevaNota}&Materia=${encodeURIComponent(materia)}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al actualizar la nota: " + response.status);
+        }
+
+        window.location.reload();
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+        alert("Ocurrió un error al actualizar la nota. Intente nuevamente.");
+    }
+
     $('#editarNotaModal').modal('hide');
     document.getElementById('editarNotaModal').remove();
-}
-
-
-function eliminarAlumno(legajoAlumno, materia) {
-    // Crear el contenido del modal de confirmación
-    const modalContent = `
-        <div class="modal fade" id="eliminarAlumnoModal" tabindex="-1" role="dialog" aria-labelledby="eliminarAlumnoModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="eliminarAlumnoModalLabel">Confirmar Eliminación</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>¿Estás seguro de que deseas eliminar al alumno con legajo <strong>${legajoAlumno}</strong> de la materia <strong>${materia}</strong>?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion(${legajoAlumno}, '${materia}')">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    // Insertar el contenido del modal en el cuerpo del HTML
-    document.body.insertAdjacentHTML('beforeend', modalContent);
-    
-    // Mostrar el modal
-    $('#eliminarAlumnoModal').modal('show');
-}
-
-function confirmarEliminacion(legajoAlumno, materia) {
-    // Aquí podrías agregar la lógica para eliminar al alumno cuando esté disponible la API
-    alert(`Alumno con legajo ${legajoAlumno} eliminado de la materia ${materia}`);
-    
-    // Cerrar el modal y eliminarlo del DOM
-    $('#eliminarAlumnoModal').modal('hide');
-    document.getElementById('eliminarAlumnoModal').remove();
 }
 
 
@@ -459,7 +444,7 @@ async function cargarPerfilAlumno() {
         const response = await fetch('https://localhost:7146/v1/api/Docente?legajo=' + alumnoObjeto.userName);
         console.log(response)
         if (!response.ok) {
-            
+
             throw new Error("Error al obtener los datos del alumno");
         }
         const data = await response.json();
@@ -492,14 +477,72 @@ function mostrarPerfil(alumno) {
     `;
 }
 
+async function cargarDatos() {
+    try {
+        const response = await fetch('https://localhost:7146/v1/api/Docente/info/materiasAndAlumnos');
+        const data = await response.json();
 
-cargarPerfilAlumno()
+        const alumnoSelect = document.getElementById('alumnoId');
+        data.alumnos.forEach(alumno => {
+            const option = document.createElement('option');
+            option.value = alumno.nombre; 
+            option.textContent = alumno.nombre; 
+            alumnoSelect.appendChild(option);
+        });
+
+        const materiaSelect = document.getElementById('materiaId');
+        data.materias.forEach(materia => {
+            const option = document.createElement('option');
+            option.value = materia.nombre; 
+            option.textContent = materia.nombre; 
+            materiaSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar datos:', error);
+    }
+}
+
+async function inscribirAlumno() {
+    const docenteLocal = localStorage.getItem("tokenSesion");
+    const docenteObjeto = JSON.parse(docenteLocal);
+
+    const legajoAlumno = document.getElementById('alumnoId').value; 
+    const legajoDocente = docenteObjeto.userName; 
+    const nombreMateria = document.getElementById('materiaId').value; 
+
+    // Construir la URL con los parámetros
+    const apiUrl = `https://localhost:7146/v1/api/Docente/alumno/materia?LegajoAlumno=${legajoAlumno}&LegajoDocente=${legajoDocente}&NombreMateria=${nombreMateria}`;
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Inscripción exitosa:', result);
+            alert('Inscripción realizada con éxito');
+        } else {
+            console.error('Error en la inscripción:', response.statusText);
+            alert('Error en la inscripción: ' + response.statusText);
+        }
+    } catch (error) {
+        console.error('Error al hacer la solicitud:', error);
+        alert('Error al inscribir al alumno');
+    }
+}
+
 
 function logout() {
     localStorage.removeItem("tokenSesion");
     window.location.href = "/index.html";
 }
 
+cargarDatos()
+cargarPerfilAlumno()
 obtenerDocentesTribunales()
 ObtenerDocente();
 verificarSession();

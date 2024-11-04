@@ -132,6 +132,41 @@
   color: #e74a3b;
 }
 
+.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed; /* Fijo */
+  z-index: 1; /* Encima de todo */
+  left: 0;
+  top: 0;
+  width: 100%; /* Ancho completo */
+  height: 100%; /* Alto completo */
+  overflow: auto; /* Scroll si es necesario */
+  background-color: rgb(0,0,0); /* Color negro */
+  background-color: rgba(0,0,0,0.4); /* Negro con opacidad */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% desde el top y centrado */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Ancho del modal */
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .charts-grid {
       grid-template-columns: 1fr;
@@ -141,3 +176,5 @@
       padding: 1rem;
   }
 }
+
+
