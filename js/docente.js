@@ -335,6 +335,10 @@ async function ObtenerAdministracionDocente() {
 }
 
 function editarNota(legajoAlumno, materia, notaActual) {
+    const existingModal = document.getElementById('editarNotaModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
     const modalContent = `
         <div class="modal fade" id="editarNotaModal" tabindex="-1" role="dialog" aria-labelledby="editarNotaModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -521,20 +525,11 @@ async function inscribirAlumno() {
             },
         });
 
-        if (response.ok) {
-            const result = await response.json();
-            console.log('Inscripción exitosa:', result);
-            alert('Inscripción realizada con éxito');
-        } else {
-            console.error('Error en la inscripción:', response.statusText);
-            alert('Error en la inscripción: ' + response.statusText);
-        }
+        
     } catch (error) {
         console.error('Error al hacer la solicitud:', error);
-        alert('Error al inscribir al alumno');
     }
 }
-
 
 function logout() {
     localStorage.removeItem("tokenSesion");

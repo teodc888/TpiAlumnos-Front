@@ -130,7 +130,7 @@
 
         <div class="container">
           <h1>Inscripción de Alumno a Materia</h1>
-          <form id="inscripcionForm" onsubmit="return false;"> <!-- Prevenir comportamiento por defecto aquí -->
+          <form id="inscripcionForm"> 
             <div class="form-group">
               <label for="alumnoId">Alumno</label>
               <select id="alumnoId" name="alumnoId" required>
@@ -145,7 +145,7 @@
 
               </select>
             </div>
-            <button type="button" id="inscribirBtn">Inscribir Alumno</button>
+            <button type="button" id="inscribirBtn" onclick="inscribirAlumno()">Inscribir Alumno</button>
           </form>
         </div>
 
@@ -157,8 +157,7 @@
         </div>
       </div>
       <!-- End of Topbar -->
-      <script src="../js/docente.js"></script>
-      <script src="../js/docente.js"></script>
+      <script src="./js/inscripcionMaterias.js"></script>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
