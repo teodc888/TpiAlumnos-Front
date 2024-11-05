@@ -92,17 +92,18 @@ async function inscribirAlumno() {
             },
         });
 
+        if (!response.ok) {
+            alert("Hubo un problema al obtener al inscribir almuno");
+        }else{
+            alert("Se inscribio con exito");
+        }
         
     } catch (error) {
+        alert("Hubo un problema al obtener al inscribir almuno");
         console.error('Error al hacer la solicitud:', error);
     }
 }
 
-$(document).ready(function () {
-    $("#sidebarToggle").on("click", function () {
-        $("#accordionSidebar").toggleClass("toggled");
-    });
-});
 
 
 

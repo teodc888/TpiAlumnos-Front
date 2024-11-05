@@ -65,7 +65,7 @@ async function ObtenerInfoDocente() {
                 return response.json();
             })
             .then(data => {
-                document.getElementById('promedioNotas').innerHTML = data.promedioNotas;
+                document.getElementById('promedioNotas').innerHTML = data.promedioNotas.toFixed(2);
                 document.getElementById('alumnosTotales').innerHTML = data.alumnosTotales;
                 document.getElementById('materiasActivas').innerHTML = data.materiaInscriptas;
                 document.getElementById('alumnoRiesgo').innerHTML = data.alumnosEnRiesgo;
