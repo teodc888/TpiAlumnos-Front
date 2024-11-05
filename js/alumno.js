@@ -257,9 +257,6 @@ async function ObtenerExamenesFinales() {
                             <h6 class="text-gray-800">Fecha del Examen:</h6>
                             <p class="h5 font-weight-bold">${new Date(examen.fecha).toLocaleDateString()}</p>
                         </div>
-                        <div class="card-footer text-center">
-                            <button class="btn btn-secondary btn-sm">Ver Detalles</button>
-                        </div>
                     </div>
                 `;
                 
