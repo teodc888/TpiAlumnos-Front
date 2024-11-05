@@ -40,7 +40,9 @@ document.getElementById("loginForm").addEventListener("submit", async function (
                 window.location.href = "404.html"
             }
         } else {
-            alert("Inicio de sesión fallido. Verifica tus credenciales.");
+            const resultadoModal = new bootstrap.Modal(document.getElementById("errorModal"));
+        resultadoModal.show();
+
         }
     } catch (error) {
         console.error("Error:", error);
