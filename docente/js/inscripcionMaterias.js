@@ -13,6 +13,7 @@ function verificarSession() {
 
 }
 
+
 async function ObtenerDocente() {
     var docenteLocal = localStorage.getItem("tokenSesion");
 
@@ -96,6 +97,14 @@ async function inscribirAlumno() {
         console.error('Error al hacer la solicitud:', error);
     }
 }
+
+$(document).ready(function () {
+    $("#sidebarToggle").on("click", function () {
+        $("#accordionSidebar").toggleClass("toggled");
+    });
+});
+
+
 
 cargarDatos();
 verificarSession();

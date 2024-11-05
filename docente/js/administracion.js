@@ -151,7 +151,7 @@ function editarNota(legajoAlumno, materia, notaActual) {
         </div>
     `;
     document.body.insertAdjacentHTML('beforeend', modalContent);
-    
+
     $('#editarNotaModal').modal('show');
 }
 
@@ -225,6 +225,14 @@ async function mostrarInfo(legajoAlumno) {
         alert("Hubo un problema al obtener la información del alumno.");
     }
 }
+
+
+
+$(document).ready(function () {
+    $("#sidebarToggle").on("click", function () {
+        $("#accordionSidebar").toggleClass("toggled");
+    });
+});
 
 verificarSession();
 ObtenerDocente();

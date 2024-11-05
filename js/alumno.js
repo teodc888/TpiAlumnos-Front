@@ -36,6 +36,7 @@ async function ObtenerAlumno() {
         })
         .then(data => {
             document.getElementById('nombreUser').innerHTML = data.nombre + ' ' + data.apellido;
+            document.getElementById('nombreAlumno').innerHTML =  data.nombre + ' ' + data.apellido;
         })
         .catch(error => {
             console.error("Error en la solicitud:", error);

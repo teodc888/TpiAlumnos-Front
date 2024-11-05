@@ -88,6 +88,13 @@ async function obtenerMateriasDocente() {
     }
 }
 
+$(document).ready(function () {
+    $("#sidebarToggle").on("click", function () {
+        $("#accordionSidebar").toggleClass("toggled");
+    });
+});
+
+
 verificarSession();
 ObtenerDocente();
 obtenerMateriasDocente();
