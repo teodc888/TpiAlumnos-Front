@@ -37,7 +37,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
                 }
 
             } else {
-                window.location.href = "404.html"
+               alert("Contraseña incorrecta")
             }
         } else {
             const resultadoModal = new bootstrap.Modal(document.getElementById("errorModal"));
@@ -45,8 +45,8 @@ document.getElementById("loginForm").addEventListener("submit", async function (
 
         }
     } catch (error) {
-        console.error("Error:", error);
-        window.location.href = "404.html"
+        alert("Contraseña incorrecta")
+ 
     }
 });
 
