@@ -1,7 +1,7 @@
 function verificarSession() {
     var docenteLocal = localStorage.getItem("tokenSesion");
 
-    if (docenteLocal == null) {
+    if (docenteLocal == "") {
         window.location.href = "/index.html";
     }
 
@@ -16,13 +16,15 @@ function verificarSession() {
 async function ObtenerDocente() {
     var docenteLocal = localStorage.getItem("tokenSesion");
 
-    if (docenteLocal != null) {
+    if (docenteLocal != "") {
         var docenteObjeto = JSON.parse(docenteLocal);
 
         fetch("https://localhost:7146/v1/api/Docente?legajo=" + docenteObjeto.userName, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": docenteObjeto.response.tokenSesion,
+                "UsuarioId": docenteObjeto.response.usuarioId
             }
         })
             .then(response => {
@@ -44,14 +46,16 @@ async function ObtenerDocente() {
 async function ObtenerAdministracionDocente() {
     const docenteLocal = localStorage.getItem("tokenSesion");
 
-    if (docenteLocal != null) {
+    if (docenteLocal != "") {
         const docenteObjeto = JSON.parse(docenteLocal);
 
         try {
             const response = await fetch(`https://localhost:7146/v1/api/Docente/materia/only?legajo=${docenteObjeto.userName}`, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": docenteObjeto.response.tokenSesion,
+                    "UsuarioId": docenteObjeto.response.usuarioId
                 }
             });
 
@@ -150,73 +154,89 @@ function editarNota(legajoAlumno, materia, notaActual) {
 }
 
 async function confirmarEdicionNota(legajoAlumno, materia) {
-    const nuevaNota = document.getElementById("nuevaNotaInput").value;
-    const notaError = document.getElementById("notaError");
 
-    // Validar que la nota esté entre 1 y 10
-    if (nuevaNota < 1 || nuevaNota > 10) {
-        notaError.style.display = "block"; // Mostrar mensaje de error
-        return; // Salir de la función si la nota es inválida
-    } else {
-        notaError.style.display = "none"; // Ocultar mensaje de error
-    }
+    const docenteLocal = localStorage.getItem("tokenSesion");
 
-    try {
-        const response = await fetch(`https://localhost:7146/v1/api/Docente/materia/editar?Legajo=${legajoAlumno}&Nota=${nuevaNota}&Materia=${encodeURIComponent(materia)}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
+    if (docenteLocal != "") {
+        const docenteObjeto = JSON.parse(docenteLocal);
 
-        if (!response.ok) {
-            throw new Error("Error al actualizar la nota: " + response.status);
+        const nuevaNota = document.getElementById("nuevaNotaInput").value;
+        const notaError = document.getElementById("notaError");
+
+        // Validar que la nota esté entre 1 y 10
+        if (nuevaNota < 1 || nuevaNota > 10) {
+            notaError.style.display = "block"; // Mostrar mensaje de error
+            return; // Salir de la función si la nota es inválida
+        } else {
+            notaError.style.display = "none"; // Ocultar mensaje de error
         }
 
-        window.location.reload();
-    } catch (error) {
-        console.error("Error en la solicitud:", error);
-        alert("Ocurrió un error al actualizar la nota. Intente nuevamente.");
-    }
+        try {
+            const response = await fetch(`https://localhost:7146/v1/api/Docente/materia/editar?Legajo=${legajoAlumno}&Nota=${nuevaNota}&Materia=${encodeURIComponent(materia)}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": docenteObjeto.response.tokenSesion,
+                    "UsuarioId": docenteObjeto.response.usuarioId
+                }
+            });
 
-    $('#editarNotaModal').modal('hide');
-    document.getElementById('editarNotaModal').remove();
+            if (!response.ok) {
+                throw new Error("Error al actualizar la nota: " + response.status);
+            }
+
+            window.location.reload();
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            alert("Ocurrió un error al actualizar la nota. Intente nuevamente.");
+        }
+
+        $('#editarNotaModal').modal('hide');
+        document.getElementById('editarNotaModal').remove();
+    }
 }
 
 async function mostrarInfo(legajoAlumno) {
-    try {
-        const response = await fetch(`https://localhost:7146/v1/api/Alumno?legajo=${legajoAlumno}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
+    const docenteLocal = localStorage.getItem("tokenSesion");
+
+    if (docenteLocal != "") {
+        const docenteObjeto = JSON.parse(docenteLocal);
+        try {
+            const response = await fetch(`https://localhost:7146/v1/api/Alumno?legajo=${legajoAlumno}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": docenteObjeto.response.tokenSesion,
+                    "UsuarioId": docenteObjeto.response.usuarioId
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al obtener la información del alumno: " + response.status);
             }
-        });
 
-        if (!response.ok) {
-            throw new Error("Error al obtener la información del alumno: " + response.status);
+            const alumnoData = await response.json();
+
+            // Llenar el modal con los datos del alumno
+            document.getElementById('infoLegajo').textContent = alumnoData.legajo;
+            document.getElementById('infoNombre').textContent = alumnoData.nombre;
+            document.getElementById('infoApellido').textContent = alumnoData.apellido;
+            document.getElementById('infoTipoDocumento').textContent = alumnoData.tipoDocumento;
+            document.getElementById('infoNumeroDocumento').textContent = alumnoData.numeroDocumento;
+            document.getElementById('infoDireccion').textContent = alumnoData.direccion;
+            document.getElementById('infoLocalidad').textContent = alumnoData.localidad;
+            document.getElementById('infoEstadoCivil').textContent = alumnoData.estadoCivil;
+            document.getElementById('infoEstadoHabitacional').textContent = alumnoData.estadoHabitacional;
+            document.getElementById('infoSituacionLaboral').textContent = alumnoData.situacionLaboral;
+            document.getElementById('infoFechaNacimiento').textContent = alumnoData.fechaNacimiento;
+            document.getElementById('infoGenero').textContent = alumnoData.genero;
+
+            // Mostrar el modal
+            $('#infoAlumnoModal').modal('show');
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            alert("Hubo un problema al obtener la información del alumno.");
         }
-
-        const alumnoData = await response.json();
-
-        // Llenar el modal con los datos del alumno
-        document.getElementById('infoLegajo').textContent = alumnoData.legajo;
-        document.getElementById('infoNombre').textContent = alumnoData.nombre;
-        document.getElementById('infoApellido').textContent = alumnoData.apellido;
-        document.getElementById('infoTipoDocumento').textContent = alumnoData.tipoDocumento;
-        document.getElementById('infoNumeroDocumento').textContent = alumnoData.numeroDocumento;
-        document.getElementById('infoDireccion').textContent = alumnoData.direccion;
-        document.getElementById('infoLocalidad').textContent = alumnoData.localidad;
-        document.getElementById('infoEstadoCivil').textContent = alumnoData.estadoCivil;
-        document.getElementById('infoEstadoHabitacional').textContent = alumnoData.estadoHabitacional;
-        document.getElementById('infoSituacionLaboral').textContent = alumnoData.situacionLaboral;
-        document.getElementById('infoFechaNacimiento').textContent = alumnoData.fechaNacimiento;
-        document.getElementById('infoGenero').textContent = alumnoData.genero;
-
-        // Mostrar el modal
-        $('#infoAlumnoModal').modal('show');
-    } catch (error) {
-        console.error("Error en la solicitud:", error);
-        alert("Hubo un problema al obtener la información del alumno.");
     }
 }
 

@@ -1,7 +1,7 @@
 function verificarSession() {
     var docenteLocal = localStorage.getItem("tokenSesion");
 
-    if (docenteLocal == null) {
+    if (docenteLocal == "") {
         window.location.href = "/index.html";
     }
 
@@ -17,13 +17,15 @@ function verificarSession() {
 async function ObtenerDocente() {
     var docenteLocal = localStorage.getItem("tokenSesion");
 
-    if (docenteLocal != null) {
+    if (docenteLocal != "") {
         var docenteObjeto = JSON.parse(docenteLocal);
 
         fetch("https://localhost:7146/v1/api/Docente?legajo=" + docenteObjeto.userName, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": docenteObjeto.response.tokenSesion,
+                "UsuarioId": docenteObjeto.response.usuarioId
             }
         })
             .then(response => {
@@ -48,59 +50,75 @@ function logout() {
 }
 
 async function cargarDatos() {
-    try {
-        const response = await fetch('https://localhost:7146/v1/api/Docente/info/materiasAndAlumnos');
-        const data = await response.json();
+    var docenteLocal = localStorage.getItem("tokenSesion");
 
-        const alumnoSelect = document.getElementById('alumnoId');
-        data.alumnos.forEach(alumno => {
-            const option = document.createElement('option');
-            option.value = alumno.nombre; 
-            option.textContent = alumno.nombre; 
-            alumnoSelect.appendChild(option);
-        });
+    if (docenteLocal != "") {
+        var docenteObjeto = JSON.parse(docenteLocal);
+        try {
+            const response = await fetch('https://localhost:7146/v1/api/Docente/info/materiasAndAlumnos', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": docenteObjeto.response.tokenSesion,
+                    "UsuarioId": docenteObjeto.response.usuarioId
+                }
+            });
 
-        const materiaSelect = document.getElementById('materiaId');
-        data.materias.forEach(materia => {
-            const option = document.createElement('option');
-            option.value = materia.nombre; 
-            option.textContent = materia.nombre; 
-            materiaSelect.appendChild(option);
-        });
-    } catch (error) {
-        console.error('Error al cargar datos:', error);
+            const data = await response.json();
+
+            const alumnoSelect = document.getElementById('alumnoId');
+            data.alumnos.forEach(alumno => {
+                const option = document.createElement('option');
+                option.value = alumno.nombre;
+                option.textContent = alumno.nombre;
+                alumnoSelect.appendChild(option);
+            });
+
+            const materiaSelect = document.getElementById('materiaId');
+            data.materias.forEach(materia => {
+                const option = document.createElement('option');
+                option.value = materia.nombre;
+                option.textContent = materia.nombre;
+                materiaSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error al cargar datos:', error);
+        }
     }
 }
 
 async function inscribirAlumno() {
-    console.log('entro')
-    const docenteLocal = localStorage.getItem("tokenSesion");
-    const docenteObjeto = JSON.parse(docenteLocal);
+    var docenteLocal = localStorage.getItem("tokenSesion");
 
-    const legajoAlumno = document.getElementById('alumnoId').value; 
-    const legajoDocente = docenteObjeto.userName; 
-    const nombreMateria = document.getElementById('materiaId').value; 
+    if (docenteLocal != "") {
+        const docenteObjeto = JSON.parse(docenteLocal);
 
-    // Construir la URL con los parámetros
-    const apiUrl = `https://localhost:7146/v1/api/Docente/alumno/materia?LegajoAlumno=${legajoAlumno}&LegajoDocente=${legajoDocente}&NombreMateria=${nombreMateria}`;
+        const legajoAlumno = document.getElementById('alumnoId').value;
+        const legajoDocente = docenteObjeto.userName;
+        const nombreMateria = document.getElementById('materiaId').value;
 
-    try {
-        const response = await fetch(apiUrl, {
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        const apiUrl = `https://localhost:7146/v1/api/Docente/alumno/materia?LegajoAlumno=${legajoAlumno}&LegajoDocente=${legajoDocente}&NombreMateria=${nombreMateria}`;
 
-        if (!response.ok) {
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": docenteObjeto.response.tokenSesion,
+                    "UsuarioId": docenteObjeto.response.usuarioId
+                },
+            });
+
+            if (!response.ok) {
+                alert("Hubo un problema al obtener al inscribir almuno");
+            } else {
+                alert("Se inscribio con exito");
+            }
+
+        } catch (error) {
             alert("Hubo un problema al obtener al inscribir almuno");
-        }else{
-            alert("Se inscribio con exito");
+            console.error('Error al hacer la solicitud:', error);
         }
-        
-    } catch (error) {
-        alert("Hubo un problema al obtener al inscribir almuno");
-        console.error('Error al hacer la solicitud:', error);
     }
 }
 

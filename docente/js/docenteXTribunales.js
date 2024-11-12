@@ -1,13 +1,15 @@
 async function obtenerDocentesTribunales() {
     var docenteLocal = localStorage.getItem("tokenSesion");
 
-    if (docenteLocal != null) {
+    if (docenteLocal != "") {
         var docenteObjeto = JSON.parse(docenteLocal);
         try {
             const response = await fetch("https://localhost:7146/v1/api/Docente/tribunal?legajo=" + docenteObjeto.userName, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": docenteObjeto.response.tokenSesion,
+                    "UsuarioId": docenteObjeto.response.usuarioId
                 }
             });
 
@@ -41,7 +43,7 @@ async function obtenerDocentesTribunales() {
 function verificarSession() {
     var docenteLocal = localStorage.getItem("tokenSesion");
 
-    if (docenteLocal == null) {
+    if (docenteLocal == "") {
         window.location.href = "/index.html";
     }
 
@@ -56,13 +58,15 @@ function verificarSession() {
 async function ObtenerDocente() {
     var docenteLocal = localStorage.getItem("tokenSesion");
 
-    if (docenteLocal != null) {
+    if (docenteLocal != "") {
         var docenteObjeto = JSON.parse(docenteLocal);
 
         fetch("https://localhost:7146/v1/api/Docente?legajo=" + docenteObjeto.userName, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": docenteObjeto.response.tokenSesion,
+                "UsuarioId": docenteObjeto.response.usuarioId
             }
         })
             .then(response => {

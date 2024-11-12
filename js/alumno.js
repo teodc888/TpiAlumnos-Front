@@ -1,46 +1,50 @@
-function verificarUsuario(){
+function verificarUsuario() {
     var alumnoLocal = localStorage.getItem("tokenSesion");
 
-    if(alumnoLocal == null){
+    if (alumnoLocal == "") {
         window.location.href = "/index.html";
+        return;
     }
 
     var alumnoObjeto = JSON.parse(alumnoLocal);
 
-    if(alumnoObjeto.rol != "Alumno"){
+    if (alumnoObjeto.rol != "Alumno") {
         window.location.href = "/index.html";
+        return;
     }
 
 
 }
 
-verificarUsuario();
-
 async function ObtenerAlumno() {
     var alumnoLocal = localStorage.getItem("tokenSesion");
-
-    if (alumnoLocal != null) {
+    
+    if (alumnoLocal != "") {
         var alumnoObjeto = JSON.parse(alumnoLocal);
 
         fetch("https://localhost:7146/v1/api/Alumno?legajo=" + alumnoObjeto.userName, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": alumnoObjeto.response.tokenSesion,
+                "UsuarioId": alumnoObjeto.response.usuarioId
             }
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error en la respuesta: " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            document.getElementById('nombreUser').innerHTML = data.nombre + ' ' + data.apellido;
-            document.getElementById('nombreAlumno').innerHTML =  data.nombre + ' ' + data.apellido;
-        })
-        .catch(error => {
-            console.error("Error en la solicitud:", error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('nombreUser').innerHTML = data.nombre + ' ' + data.apellido;
+                document.getElementById('nombreAlumno').innerHTML = data.nombre + ' ' + data.apellido;
+            })
+            .catch(error => {
+                console.error("Error en la solicitud:", error);
+            });
+    }else{
+        window.location.href = "/index.html";
     }
 }
 
@@ -49,30 +53,32 @@ async function ObtenerAlumno() {
 async function CompletarForm() {
     var alumnoLocal = localStorage.getItem("tokenSesion");
 
-    if (alumnoLocal != null) {
+    if (alumnoLocal != "") {
         var alumnoObjeto = JSON.parse(alumnoLocal);
 
         fetch("https://localhost:7146/v1/api/Alumno?legajo=" + alumnoObjeto.userName, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": alumnoObjeto.response.tokenSesion,
+                "UsuarioId": alumnoObjeto.response.usuarioId
             }
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error en la respuesta: " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            document.getElementById('legajo').value = data.legajo;
-            document.getElementById('nombre').value = data.nombre;
-            document.getElementById('apellido').value = data.apellido;
-            
-        })
-        .catch(error => {
-            console.error("Error en la solicitud:", error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('legajo').value = data.legajo;
+                document.getElementById('nombre').value = data.nombre;
+                document.getElementById('apellido').value = data.apellido;
+
+            })
+            .catch(error => {
+                console.error("Error en la solicitud:", error);
+            });
     }
 }
 
@@ -80,31 +86,33 @@ async function CompletarForm() {
 async function ObtenerInfoAlumno() {
     var alumnoLocal = localStorage.getItem("tokenSesion");
 
-    if (alumnoLocal != null) {
+    if (alumnoLocal != "") {
         var alumnoObjeto = JSON.parse(alumnoLocal);
 
         fetch("https://localhost:7146/v1/api/Alumno/info?legajo=" + alumnoObjeto.userName, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": alumnoObjeto.response.tokenSesion,
+                "UsuarioId": alumnoObjeto.response.usuarioId
             }
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error en la respuesta: " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Seleccionamos el contenedor donde se agregarán las tarjetas
-            const contenedorTarjetas = document.getElementById("contenedorTarjetas");
-            contenedorTarjetas.innerHTML = ""; // Limpiamos el contenido anterior
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Seleccionamos el contenedor donde se agregarán las tarjetas
+                const contenedorTarjetas = document.getElementById("contenedorTarjetas");
+                contenedorTarjetas.innerHTML = ""; // Limpiamos el contenido anterior
 
-            // Recorremos cada objeto de data y generamos una tarjeta
-            data.forEach(alumno => {
-                const tarjeta = document.createElement("div");
-                tarjeta.className = "col-xl-3 col-md-6 mb-4";
-                tarjeta.innerHTML = `
+                // Recorremos cada objeto de data y generamos una tarjeta
+                data.forEach(alumno => {
+                    const tarjeta = document.createElement("div");
+                    tarjeta.className = "col-xl-3 col-md-6 mb-4";
+                    tarjeta.innerHTML = `
                     <div class="card border-left-primary shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
@@ -123,44 +131,46 @@ async function ObtenerInfoAlumno() {
                         </div>
                     </div>
                 `;
-                
-                // Agregamos la tarjeta al contenedor
-                contenedorTarjetas.appendChild(tarjeta);
+
+                    // Agregamos la tarjeta al contenedor
+                    contenedorTarjetas.appendChild(tarjeta);
+                });
+            })
+            .catch(error => {
+                console.error("Error en la solicitud:", error);
             });
-        })
-        .catch(error => {
-            console.error("Error en la solicitud:", error);
-        });
     }
 }
 
 async function ObtenerNotasAlumno() {
     var alumnoLocal = localStorage.getItem("tokenSesion");
 
-    if (alumnoLocal != null) {
+    if (alumnoLocal != "") {
         var alumnoObjeto = JSON.parse(alumnoLocal);
 
         fetch("https://localhost:7146/v1/api/Alumno/info/notas?legajo=" + alumnoObjeto.userName, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": alumnoObjeto.response.tokenSesion,
+                "UsuarioId": alumnoObjeto.response.usuarioId
             }
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error en la respuesta: " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Seleccionamos el cuerpo de la tabla
-            const tbody = document.querySelector("#dataTable tbody");
-            tbody.innerHTML = ""; // Limpiamos el contenido previo en la tabla
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Seleccionamos el cuerpo de la tabla
+                const tbody = document.querySelector("#dataTable tbody");
+                tbody.innerHTML = ""; // Limpiamos el contenido previo en la tabla
 
-            // Recorremos el array de datos para agregar filas
-            data.forEach(alumno => {
-                const fila = document.createElement("tr");
-                fila.innerHTML = `
+                // Recorremos el array de datos para agregar filas
+                data.forEach(alumno => {
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
                     <td>${alumno.legajo}</td>
                     <td>${alumno.curso}</td>
                     <td>${alumno.estado}</td>
@@ -168,87 +178,91 @@ async function ObtenerNotasAlumno() {
                     <td>${alumno.nota}</td>
                     <td>${alumno.fechaCursado}</td>
                 `;
-                
-                // Añadimos la fila al cuerpo de la tabla
-                tbody.appendChild(fila);
+
+                    // Añadimos la fila al cuerpo de la tabla
+                    tbody.appendChild(fila);
+                });
+            })
+            .catch(error => {
+                console.error("Error en la solicitud:", error);
             });
-        })
-        .catch(error => {
-            console.error("Error en la solicitud:", error);
-        });
     }
 }
 
 async function CargarSelect() {
     var alumnoLocal = localStorage.getItem("tokenSesion");
 
-    if (alumnoLocal != null) {
+    if (alumnoLocal != "") {
         var alumnoObjeto = JSON.parse(alumnoLocal);
 
         fetch("https://localhost:7146/v1/api/Alumno/info/notas?legajo=" + alumnoObjeto.userName, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": alumnoObjeto.response.tokenSesion,
+                "UsuarioId": alumnoObjeto.response.usuarioId
             }
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error en la respuesta: " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const selectMateria = document.getElementById('materia');
-
-            // Limpiar el select y agregar la opción inicial
-            selectMateria.innerHTML = '<option value="">Seleccione una materia</option>';
-
-
-            data.forEach(materia => {
-                
-                const option = document.createElement('option');
-                if (materia.estado == 'REGULAR' || materia.estado == 'PROMOCIONAL') {
-                    option.value = materia.id; // Usar el ID de la materia como valor
-                    option.textContent = materia.materia// Mostrar el nombre de la materia
-                    selectMateria.appendChild(option);
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta: " + response.status);
                 }
-                
+                return response.json();
+            })
+            .then(data => {
+                const selectMateria = document.getElementById('materia');
+
+                // Limpiar el select y agregar la opción inicial
+                selectMateria.innerHTML = '<option value="">Seleccione una materia</option>';
+
+
+                data.forEach(materia => {
+
+                    const option = document.createElement('option');
+                    if (materia.estado == 'REGULAR' || materia.estado == 'PROMOCIONAL') {
+                        option.value = materia.id; // Usar el ID de la materia como valor
+                        option.textContent = materia.materia// Mostrar el nombre de la materia
+                        selectMateria.appendChild(option);
+                    }
+
+                });
+            })
+            .catch(error => {
+                console.error("Error en la solicitud:", error);
             });
-        })
-        .catch(error => {
-            console.error("Error en la solicitud:", error);
-        });
     }
 }
 
 async function ObtenerExamenesFinales() {
     var alumnoLocal = localStorage.getItem("tokenSesion");
 
-    if (alumnoLocal != null) {
+    if (alumnoLocal != "") {
         var alumnoObjeto = JSON.parse(alumnoLocal);
 
         fetch(`https://localhost:7146/v1/api/Alumno/examen/final?legajo=${alumnoObjeto.userName}`, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": alumnoObjeto.response.tokenSesion,
+                "UsuarioId": alumnoObjeto.response.usuarioId
             }
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error en la respuesta: " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Seleccionamos el contenedor donde se agregarán las tarjetas
-            const contenedorTarjetas = document.getElementById("contenedorFinal");
-            contenedorTarjetas.innerHTML = ""; // Limpiamos el contenido anterior
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error en la respuesta: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Seleccionamos el contenedor donde se agregarán las tarjetas
+                const contenedorTarjetas = document.getElementById("contenedorFinal");
+                contenedorTarjetas.innerHTML = ""; // Limpiamos el contenido anterior
 
-            // Recorremos cada objeto de data y generamos una tarjeta
-            data.forEach(examen => {
-                const tarjeta = document.createElement("div");
-                tarjeta.className = "col-lg-4 col-md-6 mb-4"; // Ajustamos el tamaño de la tarjeta
-                tarjeta.innerHTML = `
+                // Recorremos cada objeto de data y generamos una tarjeta
+                data.forEach(examen => {
+                    const tarjeta = document.createElement("div");
+                    tarjeta.className = "col-lg-4 col-md-6 mb-4"; // Ajustamos el tamaño de la tarjeta
+                    tarjeta.innerHTML = `
                     <div class="card shadow border-left-primary h-100">
                         <div class="card-header bg-primary text-white text-center">
                             <h5 class="m-0">${examen.nombreMateria}</h5>
@@ -259,50 +273,57 @@ async function ObtenerExamenesFinales() {
                         </div>
                     </div>
                 `;
-                
-                // Agregamos la tarjeta al contenedor
-                contenedorTarjetas.appendChild(tarjeta);
+
+                    // Agregamos la tarjeta al contenedor
+                    contenedorTarjetas.appendChild(tarjeta);
+                });
+            })
+            .catch(error => {
+                console.error("Error en la solicitud:", error);
             });
-        })
-        .catch(error => {
-            console.error("Error en la solicitud:", error);
-        });
     }
 }
 
 async function inscribirAlumno(event) {
-    event.preventDefault(); // Evita el envío del formulario por defecto
+    var alumnoLocal = localStorage.getItem("tokenSesion");
 
-    // Obtiene los valores del formulario
-    const legajo = document.getElementById("legajo").value;
-    const selectMateria = document.getElementById('materia');
-    const nombreMateria = selectMateria.options[selectMateria.selectedIndex].text;
-    const fechaInscripcion = document.getElementById("fecha").value;
+    if (alumnoLocal != "") {
+        var alumnoObjeto = JSON.parse(alumnoLocal);
+        event.preventDefault(); // Evita el envío del formulario por defecto
 
-    // Construye el cuerpo de la solicitud
-    const body = {
-        legajo: parseInt(legajo), // Convierte legajo a número
-        nombreMateria: nombreMateria,
-        fechaInscripcion: new Date(fechaInscripcion).toISOString() // Formatea la fecha
-    };
-    try {
-        const response = await fetch("https://localhost:7146/v1/api/Alumno/inscribir", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(body) // Convierte el cuerpo a JSON
-        });
+        // Obtiene los valores del formulario
+        const legajo = document.getElementById("legajo").value;
+        const selectMateria = document.getElementById('materia');
+        const nombreMateria = selectMateria.options[selectMateria.selectedIndex].text;
+        const fechaInscripcion = document.getElementById("fecha").value;
 
-        if (!response.ok) {
-            throw new Error("Error en la inscripción: " + response.status);
+        // Construye el cuerpo de la solicitud
+        const body = {
+            legajo: parseInt(legajo), // Convierte legajo a número
+            nombreMateria: nombreMateria,
+            fechaInscripcion: new Date(fechaInscripcion).toISOString() // Formatea la fecha
+        };
+        try {
+            const response = await fetch("https://localhost:7146/v1/api/Alumno/inscribir", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": alumnoObjeto.response.tokenSesion,
+                    "UsuarioId": alumnoObjeto.response.usuarioId
+                },
+                body: JSON.stringify(body) // Convierte el cuerpo a JSON
+            });
+
+            if (!response.ok) {
+                throw new Error("Error en la inscripción: " + response.status);
+            }
+
+            // Muestra el modal de confirmación si la inscripción es exitosa
+            $('#confirmacionModal').modal('show');
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            alert("Ocurrió un error al inscribirse. Intente nuevamente.");
         }
-
-        // Muestra el modal de confirmación si la inscripción es exitosa
-        $('#confirmacionModal').modal('show');
-    } catch (error) {
-        console.error("Error en la solicitud:", error);
-        alert("Ocurrió un error al inscribirse. Intente nuevamente.");
     }
 }
 
@@ -310,10 +331,18 @@ async function cargarPerfilAlumno() {
     var alumnoLocal = localStorage.getItem("tokenSesion");
     var alumnoObjeto = JSON.parse(alumnoLocal);
     try {
-        const response = await fetch('https://localhost:7146/v1/api/Alumno?legajo=' + alumnoObjeto.userName);
+        const response = await fetch('https://localhost:7146/v1/api/Alumno?legajo=' + alumnoObjeto.userName, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": alumnoObjeto.response.tokenSesion,
+                "UsuarioId": alumnoObjeto.response.usuarioId
+            },
+            body: JSON.stringify(body) // Convierte el cuerpo a JSON
+        });
         console.log(response)
         if (!response.ok) {
-            
+
             throw new Error("Error al obtener los datos del alumno");
         }
         const data = await response.json();
@@ -345,10 +374,7 @@ function mostrarPerfil(alumno) {
     `;
 }
 
-
 cargarPerfilAlumno()
-
-
 
 ObtenerExamenesFinales();
 
@@ -361,3 +387,5 @@ ObtenerAlumno();
 CompletarForm();
 
 CargarSelect();
+
+verificarUsuario();
